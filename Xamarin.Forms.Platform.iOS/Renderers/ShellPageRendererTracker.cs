@@ -248,9 +248,14 @@ namespace Xamarin.Forms.Platform.iOS
 				item = item?.Parent;
 			}
 			if (image == null)
-				image = "3bar.png";
+				image = new FileImageSource { File = "3bar.png" };
 			var icon = await image.GetNativeImageAsync();
-			NavigationItem.LeftBarButtonItem = new UIBarButtonItem(icon, UIBarButtonItemStyle.Plain, OnMenuButtonPressed);
+			NavigationItem.LeftBarButtonItem = new UIBarButtonItem(icon, UIBarButtonItemStyle.Plain, OnMenuButtonPressed)
+			{
+				AccessibilityIdentifier = image.AutomationId,
+			};
+			NavigationItem.LeftBarButtonItem.SetAccessibilityHint(image);
+			NavigationItem.LeftBarButtonItem.SetAccessibilityLabel(image);
 		}
 
 		void OnMenuButtonPressed(object sender, EventArgs e)
