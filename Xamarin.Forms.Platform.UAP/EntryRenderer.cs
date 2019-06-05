@@ -55,6 +55,7 @@ namespace Xamarin.Forms.Platform.UWP
 				UpdateText();
 				UpdatePlaceholder();
 				UpdateTextColor();
+				UpdateFlowDirection();
 				UpdateFont();
 				UpdateAlignment();
 				UpdatePlaceholderColor();
@@ -139,6 +140,11 @@ namespace Xamarin.Forms.Platform.UWP
 				UpdateSelectionLength();
 			else if (e.PropertyName == InputView.IsReadOnlyProperty.PropertyName)
 				UpdateIsReadOnly();
+			else if (e.PropertyName == VisualElement.FlowDirectionProperty.PropertyName)
+			{
+				UpdateTextAlignment();
+				UpdateFlowDirection();
+			}
 		}
 
 		protected override void UpdateBackgroundColor()
@@ -260,6 +266,11 @@ namespace Xamarin.Forms.Platform.UWP
 			Control.Text = Element.Text ?? "";
 		}
 
+		void UpdateTextAlignment()
+		{
+			Control.UpdateTextAlignment(Element);
+		}
+
 		void UpdateTextColor()
 		{
 			Color textColor = Element.TextColor;
@@ -269,6 +280,11 @@ namespace Xamarin.Forms.Platform.UWP
 
 			BrushHelpers.UpdateColor(textColor, ref _defaultTextColorFocusBrush,
 				() => Control.ForegroundFocusBrush, brush => Control.ForegroundFocusBrush = brush);
+		}
+
+		void UpdateFlowDirection()
+		{
+			Control.UpdateFlowDirection(Element);
 		}
 
 		void UpdateMaxLength()
